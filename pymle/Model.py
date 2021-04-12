@@ -28,14 +28,21 @@ class Model1D(ABC):
 
     @property
     def params(self) -> np.ndarray:
+        """ Access the params """
         return self._params
 
     @params.setter
     def params(self, vals: np.ndarray):
-        self._positive = self._is_positive(params=vals)  # Check if the params ensure positive density
+        """ Set parameters, used by fitter to move through param space """
+        self._positive = self._set_is_positive(params=vals)  # Check if the params ensure positive density
         self._params = vals
 
-    def _is_positive(self, params: np.ndarray) -> bool:
+    @property
+    def is_positive(self) -> bool:
+        """ Check if the model has non-negative paths, given the currently set parameters """
+        return self._positive
+
+    def _set_is_positive(self, params: np.ndarray) -> bool:
         """
         Override this method to specify if the parameters ensure a non-negative process. This is used to
         ensuring sample paths are positive. If this is not overriden, no protection is added to ensure positivity
@@ -161,46 +168,8 @@ class Model1D(ABC):
         return np.exp(-0.5 * ((xt - E) / V) ** 2) / (np.sqrt(2 * np.pi) * V)
 
     # ==============================
-    # Simulation Steps
+    # Simulation Steps used by Simulation Schemes
     # ==============================
-
-    def euler_step(self,
-                   t: float,
-                   dt: float,
-                   x: Union[float, np.ndarray],
-                   dZ: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
-        """ Euler Simulation Step """
-        xp = x + self.drift(x, t) * dt + self.diffusion(x, t) * np.sqrt(dt) * dZ
-        return np.maximum(0., xp) if self._positive else xp
-
-    def milstein_step(self,
-                      t: float,
-                      dt: float,
-                      x: Union[float, np.ndarray],
-                      dZ: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
-        """ Milstein Simulation Step """
-        xp = x + self.drift(x, t) * dt + self.diffusion(x, t) * np.sqrt(dt) * dZ \
-             + 0.5 * self.diffusion(x, t) * self.diffusion_x(x, t) * (dZ ** 2 - 1) * dt
-        return np.maximum(0., xp) if self._positive else xp
-
-    def milstein_2_step(self,
-                        t: float,
-                        dt: float,
-                        x: Union[float, np.ndarray],
-                        dZ: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
-        sig = self.diffusion(x, t)
-        sig2 = sig ** 2
-        sig_x = self.diffusion_x(x, t)
-        sig_xx = self.diffusion_xx(x, t)
-        mu = self.drift(x, t)
-        mu_x = self.drift_x(x, t)
-        mu_xx = self.drift_xx(x, t)
-
-        xp = x + (mu - 0.5 * sig * sig_x) * dt + sig * dZ * np.sqrt(dt) + 0.5 * sig * sig_x * dt * dZ ** 2 \
-             + dt ** 1.5 * (0.5 * mu * sig_x + 0.5 * mu_x * sig + 0.25 * sig2 * sig_xx) * dZ + dt ** 2 * (
-                     0.5 * mu * mu_x + 0.25 * mu_xx * sig2)
-
-        return np.maximum(0., xp) if self._positive else xp
 
     def exact_step(self,
                    t: float,

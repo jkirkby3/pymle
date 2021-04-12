@@ -35,6 +35,6 @@ class GeometricBM(Model1D):
         drift = (self._params[0] - 0.5 * self._params[1] ** 2) * dt
         return x * np.exp(drift + sig_sq_dt * dZ)
 
-    def _is_positive(self, params: np.ndarray) -> bool:
+    def _set_is_positive(self, params: np.ndarray) -> bool:
         """ GBM is always positive """
         return True

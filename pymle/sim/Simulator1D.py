@@ -1,6 +1,9 @@
 import numpy as np
-from pymle.Model import Model1D
 from typing import Callable
+from pymle.Model import Model1D
+from pymle.sim.Stepper import (
+    Stepper, ExactStepper, EulerStepper, MilsteinStepper, Milstein2Stepper
+)
 
 
 class Simulator1D(object):
@@ -13,7 +16,7 @@ class Simulator1D(object):
                  seed: int = None,
                  method: str = "Default"):
         """
-        Base class for simulating paths of random process
+        Class for simulating paths of diffusion (SDE) process
         Override the sim_path method
 
         :param S0: float, initial value of process
@@ -79,19 +82,19 @@ class Simulator1D(object):
         dt_sub = self._dt / self._sub_step  # divides dt into subintervals of length dt_sub
 
         for i in range(self._M * self._sub_step):
-            path[i + 1, :] = stepper(t=i * dt_sub, dt=dt_sub, x=path[i, :], dZ=norms[i, :])
+            path[i + 1, :] = stepper.next(t=i * dt_sub, dt=dt_sub, x=path[i, :], dZ=norms[i, :])
 
         return path[::self._sub_step]
 
-    def _get_stepper(self) -> Callable:
+    def _get_stepper(self) -> Stepper:
         """ Get the simulation stepper according to scheme """
         if self._method == "Euler":
-            return self._model.euler_step
+            return EulerStepper(model=self._model)
         elif self._method == "Milstein":
-            return self._model.milstein_step
+            return MilsteinStepper(model=self._model)
         elif self._method == "Exact":
-            return self._model.exact_step
+            return ExactStepper(model=self._model)
         elif self._method == "Milstein2":
-            return self._model.milstein_2_step
+            return Milstein2Stepper(model=self._model)
 
         raise NotImplementedError

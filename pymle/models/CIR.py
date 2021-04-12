@@ -45,6 +45,6 @@ class CIR(Model1D):
         p *= ive(q, z)
         return p
 
-    def _is_positive(self, params: np.ndarray) -> bool:
+    def _set_is_positive(self, params: np.ndarray) -> bool:
         """ CIR is always non-negative """
         return True
