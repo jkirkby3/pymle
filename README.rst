@@ -17,7 +17,7 @@ Coming soon, for now use git clone.
 Dependencies
 ~~~~~~~~~~~~
 
-scikit-learn requires:
+pymle requires:
 
 - Python (>= |PythonMinVersion|)
 - NumPy (>= |NumPyMinVersion|)
@@ -27,4 +27,4 @@ Source code
 
 You can check the latest sources with the command::
 
-    git clone https://github.com/scikit-learn/scikit-learn.git
+    git clone https://github.com/jkirkby3/pymle.git
