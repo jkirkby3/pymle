@@ -58,7 +58,7 @@ class Simulator1D(object):
         if self._sub_step > 1 and self._method != "Exact":
             return self._sim_substep(num_paths=num_paths)
 
-        stepper = self._get_stepper()
+        stepper = Stepper.new_stepper(scheme=self._method, model=self._model)
         path = self._init_path(path_shape=(self._M + 1, num_paths))
         norms = np.random.normal(loc=0., scale=1., size=(self._M, num_paths))
         for i in range(self._M):
@@ -76,7 +76,7 @@ class Simulator1D(object):
 
     def _sim_substep(self, num_paths: int) -> np.ndarray:
         """ simulate using the sub-stepping routine (reduced bias) """
-        stepper = self._get_stepper()
+        stepper = Stepper.new_stepper(scheme=self._method, model=self._model)
         path = self._init_path(path_shape=(self._M * self._sub_step + 1, num_paths))
         norms = np.random.normal(loc=0., scale=1., size=(self._M * self._sub_step, num_paths))
         dt_sub = self._dt / self._sub_step  # divides dt into subintervals of length dt_sub
@@ -85,16 +85,3 @@ class Simulator1D(object):
             path[i + 1, :] = stepper.next(t=i * dt_sub, dt=dt_sub, x=path[i, :], dZ=norms[i, :])
 
         return path[::self._sub_step]
-
-    def _get_stepper(self) -> Stepper:
-        """ Get the simulation stepper according to scheme """
-        if self._method == "Euler":
-            return EulerStepper(model=self._model)
-        elif self._method == "Milstein":
-            return MilsteinStepper(model=self._model)
-        elif self._method == "Exact":
-            return ExactStepper(model=self._model)
-        elif self._method == "Milstein2":
-            return Milstein2Stepper(model=self._model)
-
-        raise NotImplementedError

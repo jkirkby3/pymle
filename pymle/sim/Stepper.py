@@ -45,6 +45,26 @@ class Stepper(ABC):
         """ Same as a call to next() """
         return self.next(t=t, dt=dt, x=x, dZ=dZ)
 
+    @staticmethod
+    def new_stepper(scheme: str, model: Model1D):
+        """
+        Factory method to construct a simulation stepper according to scheme
+        :param scheme: str, name of the simulation scheme, e.g.
+            'Euler', 'Milstein', 'Milstein2', 'Exact'
+        :param model: Model1D, the SDE model to which the stepper is bound
+        :return: Stepper, bound to the model, for particular scheme
+        """
+        if scheme == "Euler":
+            return EulerStepper(model=model)
+        elif scheme == "Milstein":
+            return MilsteinStepper(model=model)
+        elif scheme == "Exact":
+            return ExactStepper(model=model)
+        elif scheme == "Milstein2":
+            return Milstein2Stepper(model=model)
+
+        raise NotImplementedError
+
 
 class ExactStepper(Stepper):
     def __init__(self, model: Model1D):
