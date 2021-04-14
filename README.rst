@@ -25,9 +25,7 @@ pymle requires:
 Source code
 ~~~~~~~~~~~
 
-You can check the latest sources with the command::
 
-    git clone https://github.com/jkirkby3/pymle.git
     
     
     
