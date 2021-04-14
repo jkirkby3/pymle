@@ -45,21 +45,18 @@ import numpy as np
 # ===========================
 # Set the true model (CIR) params, to simulate the process
 # ===========================
-S0 = 0.4  # initial value of process
+model = CIR()  # Cox-Ingersol-Ross 
 
 kappa = 3  # rate of mean reversion
 mu = 0.3  # long term level of process
 sigma = 0.2  # volatility
 
-# ===========================
-# Create the true model to fit to
-# ===========================
-model = CIR()
 model.params = np.array([kappa, mu, sigma])
 
 # ===========================
 # Simulate a sample path (we will fit to this path)
 # ===========================
+S0 = 0.4  # initial value of process
 T = 5  # num years of the sample
 freq = 250  # observations per year
 dt = 1. / freq
@@ -125,9 +122,13 @@ from pymle.fit.AnalyticalMLE import AnalyticalMLE
 # ===========================
 # Create the Hypothesized model (CKLS)
 # ===========================
-model = CKLS()
-param_bounds = [(0.0, 10), (0.0, 10), (0.01, 3), (0.1, 2)]  # bounds for param search
-guess = np.array([0.01, 0.1, 0.2, 0.6])  # Some guess for the params
+# (Chan, Karolyi, Longstaff and Sanders Model)
+
+model = CKLS() 
+
+# Set bounds for param search, and some psuedo-reasonable initial guess
+param_bounds = [(0.0, 10), (0.0, 10), (0.01, 3), (0.1, 2)]  
+guess = np.array([0.01, 0.1, 0.2, 0.6])  
 
 # ===========================
 # Read in the data (interest rate time series)
