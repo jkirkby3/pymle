@@ -1,4 +1,4 @@
-
+.. -*- mode: rst -*-
 
 .. |PythonMinVersion| replace:: 3.6
 .. |NumPyMinVersion| replace:: 1.13.3
@@ -33,7 +33,7 @@ You can check the latest sources with the command::
     
 Example: Fit MLE to Simulated Cox-Ingersol-Ross (CIR) sample
 ~~~~~~~~~~~
-```python
+.. code-block:: python
 from pymle.models import CIR
 from pymle.sim.Simulator1D import Simulator1D
 from pymle.TransitionDensity import ExactDensity, KesslerDensity
