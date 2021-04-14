@@ -90,16 +90,82 @@ print(f'\nExact MLE: {exact_est}')
 
 ```
 Kessler MLE: 
-params     | [2.9628751  0.3157062  0.19978367] 
-likelihood | 4398.276719373996 
-AIC        | -8790.553438747991
-BIC        | -8775.160742257101 
+params      | [2.9628751  0.3157062  0.19978367] 
+sample size | 1250
+likelihood  | 4398.276719373996 
+AIC         | -8790.553438747991
+BIC         | -8775.160742257101 
 
 Exact MLE: 
-params     | [3.0169684  0.31590483 0.2011907 ] 
-likelihood | 4397.641069883833 
-AIC        | -8789.282139767665
-BIC        | -8773.889443276776
+params      | [3.0169684  0.31590483 0.2011907 ] 
+sample size | 1250
+likelihood  | 4397.641069883833 
+AIC         | -8789.282139767665
+BIC         | -8773.889443276776
 
 ```
 
+
+## Example: Fit MLE to Historical Interest Rates (10 Year Constant maturity)
+
+Data Source:
+
+Board of Governors of the Federal Reserve System (US), 10-Year Treasury Constant Maturity Rate [DGS10],
+retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/DGS10, April 11, 2021.
+
+
+```python
+
+import pandas as pd
+import numpy as np
+from pymle.models.CKLS import CKLS
+from pymle.TransitionDensity import KesslerDensity, ShojiOzakiDensity
+from pymle.fit.AnalyticalMLE import AnalyticalMLE
+
+# ===========================
+# Create the Hypothesized model (CKLS)
+# ===========================
+model = CKLS()
+param_bounds = [(0.0, 10), (0.0, 10), (0.01, 3), (0.1, 2)]  # bounds for param search
+guess = np.array([0.01, 0.1, 0.2, 0.6])  # Some guess for the params
+
+# ===========================
+# Read in the data (interest rate time series)
+# ===========================
+
+df = pd.read_csv("../data/10yrCMrate.csv")
+sample = df['Rate'].values
+dt = 1. / 252  # Daily observations
+
+# ===========================
+# Fit maximum Likelihood estimators
+# ===========================
+
+# Fit using Kessler MLE
+kessler_est = AnalyticalMLE(sample, param_bounds, dt, density=KesslerDensity(model)).estimate_params(guess)
+
+print(f'\nKessler MLE: {kessler_est} \n')
+
+# Fit using Shoji-Ozaki MLE
+shojioz_est = AnalyticalMLE(sample, param_bounds, dt, density=ShojiOzakiDensity(model)).estimate_params(guess)
+
+print(f'\nShoji-Ozaki MLE: {shojioz_est}')
+
+```
+
+```
+Kessler MLE: 
+params      | [0.07140132 0.00326561 0.56032624 0.33638139] 
+sample size | 14801 
+likelihood  | 20274.894525560834 
+AIC         | -40541.78905112167
+BIC         | -40511.37925102152 
+
+Shoji-Ozaki MLE: 
+params      | [1.89153215e-02 2.13208446e-05 5.58760343e-01 3.37675286e-01] 
+sample size | 14801 
+likelihood  | 20275.049010989227 
+AIC         | -40542.098021978454
+BIC         | -40511.68822187831
+
+```
