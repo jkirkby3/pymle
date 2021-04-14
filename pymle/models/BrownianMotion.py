@@ -14,12 +14,10 @@ class BrownianMotion(Model1D):
     where:
         mu(X,t)    = mu   (constant)
         sigma(X,t) = sigma   (constant, >0)
-
-
     """
 
     def __init__(self):
-        super().__init__(has_exact_density=True)
+        super().__init__(has_exact_density=True, default_sim_method='Exact')
 
     def drift(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[0] * (x > -10000)  # todo: reshape?
@@ -31,6 +29,15 @@ class BrownianMotion(Model1D):
         mu, sigma = self._params
         mean_ = x0 + mu * t
         return norm.pdf(xt, loc=mean_, scale=sigma * np.sqrt(t))
+
+    def exact_step(self,
+                   t: float,
+                   dt: float,
+                   x: Union[float, np.ndarray],
+                   dZ: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
+        """ Simple Brownian motion can be simulated exactly """
+        sig_sq_dt = self._params[1] * np.sqrt(dt)
+        return x + self._params[0] * dt + sig_sq_dt * dZ
 
     # =======================
     # (Optional) Overrides for numerical derivatives to improve performance

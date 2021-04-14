@@ -31,3 +31,6 @@ class Jacobi(Model1D):
 
     def drift_t(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return 0.
+
+    def _set_is_positive(self, params: np.ndarray) -> bool:
+        return True  # Process is always positive

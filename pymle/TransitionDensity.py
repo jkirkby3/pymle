@@ -105,7 +105,7 @@ class ShojiOzakiDensity(TransitionDensity):
 
         Mt = 0.5 * sig ** 2 * self._model.drift_xx(x0, t) + self._model.drift_t(x0, t)
         Lt = self._model.drift_x(x0, t)
-        if Lt == 0:
+        if (Lt == 0).any():   # TODO: need to fix this
             B = sig * np.sqrt(t)
             A = x0 + mu * t + Mt * t ** 2 / 2
         else:

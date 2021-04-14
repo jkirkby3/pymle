@@ -31,3 +31,6 @@ class CKLS(Model1D):
 
     def drift_t(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return 0.
+
+    def _set_is_positive(self, params: np.ndarray) -> bool:
+        return params[0] > 0 and params[1] > 0 and params[3] > 0.5

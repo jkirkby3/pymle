@@ -36,10 +36,11 @@ class EstimatedResult(object):
 
     def __str__(self):
         """ String representation of the class (for pretty printing the results) """
-        return f'\nparams     | {self.params} \n' \
-               f'likelihood | {self.log_like} \n' \
-               f'AIC        | {self.aic}\n' \
-               f'BIC        | {self.bic}'
+        return f'\nparams      | {self.params} \n' \
+               f'sample size | {self.sample_size} \n' \
+               f'likelihood  | {self.log_like} \n' \
+               f'AIC         | {self.aic}\n' \
+               f'BIC         | {self.bic}'
 
 
 class Estimator(ABC):

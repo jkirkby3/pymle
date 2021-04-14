@@ -70,7 +70,7 @@ class Model1D(ABC):
                    dt: float,
                    x: Union[float, np.ndarray],
                    dZ: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
-        """ Exact Simulation Step, Implement if known """
+        """ Exact Simulation Step, Implement if known (e.g. Browian motion or GBM) """
         raise NotImplementedError
 
     # ==============================
