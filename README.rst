@@ -33,7 +33,7 @@ You can check the latest sources with the command::
     
 Example: Fit MLE to Simulated Cox-Ingersol-Ross (CIR) sample
 ~~~~~~~~~~~
-
+```python
 from pymle.models import CIR
 from pymle.sim.Simulator1D import Simulator1D
 from pymle.TransitionDensity import ExactDensity, KesslerDensity
@@ -86,3 +86,19 @@ exact_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
                           density=ExactDensity(model)).estimate_params(guess)
 
 print(f'\nExact MLE: {exact_est}')
+```
+
+```
+Kessler MLE: 
+params     | [2.9628751  0.3157062  0.19978367] 
+likelihood | 4398.276719373996 
+AIC        | -8790.553438747991
+BIC        | -8775.160742257101 
+
+Exact MLE: 
+params     | [3.0169684  0.31590483 0.2011907 ] 
+likelihood | 4397.641069883833 
+AIC        | -8789.282139767665
+BIC        | -8773.889443276776
+
+```
