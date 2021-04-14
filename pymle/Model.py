@@ -21,10 +21,19 @@ class Model1D(ABC):
         self._positive = False  # updated when params are set, indicates positivity of process
         self._default_sim_method = default_sim_method
 
-    @property
-    def default_sim_method(self) -> str:
-        """ Default method used for simulation"""
-        return self._default_sim_method
+    @abstractmethod
+    def drift(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        """ The drift term of the model """
+        raise NotImplementedError
+
+    @abstractmethod
+    def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        """ The diffusion term of the model """
+        raise NotImplementedError
+
+    # ==============================
+    # Optimization/Fit interface
+    # ==============================
 
     @property
     def params(self) -> np.ndarray:
@@ -37,28 +46,14 @@ class Model1D(ABC):
         self._positive = self._set_is_positive(params=vals)  # Check if the params ensure positive density
         self._params = vals
 
-    @property
-    def is_positive(self) -> bool:
-        """ Check if the model has non-negative paths, given the currently set parameters """
-        return self._positive
-
-    @abstractmethod
-    def drift(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
-        """ The drift term of the model """
-        raise NotImplementedError
-
-    @abstractmethod
-    def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
-        """ The diffusion term of the model """
-        raise NotImplementedError
-
-    @property
-    def has_exact_density(self) -> bool:
-        return self._has_exact_density
-
     # ==============================
     # Exact Transition Density and Simulation Step, override when available
     # ==============================
+
+    @property
+    def has_exact_density(self) -> bool:
+        """ Return true if the model has an exact density implemented """
+        return self._has_exact_density
 
     def exact_density(self, x0: float, xt: float, t: float) -> float:
         """
@@ -107,9 +102,23 @@ class Model1D(ABC):
         h = 1e-05
         return (self.diffusion(x + h, t) - 2 * self.diffusion(x, t) + self.diffusion(x - h, t)) / (h * h)
 
-    # ==============
+    # ==============================
+    # Other properties
+    # ==============================
+
+    @property
+    def is_positive(self) -> bool:
+        """ Check if the model has non-negative paths, given the currently set parameters """
+        return self._positive
+
+    @property
+    def default_sim_method(self) -> str:
+        """ Default method used for simulation"""
+        return self._default_sim_method
+
+    # ==============================
     # Private
-    # ==============
+    # ==============================
 
     def _set_is_positive(self, params: np.ndarray) -> bool:
         """
