@@ -9,6 +9,9 @@ This library supports many models out of the box (e.g. Brownian Motion, Geometri
 
 *Simulation schemes*: Euler, Milstein, Milstein-2
 
+## Origin and Future Goals
+
+This library was designed from a research collaboration with J.L. Kirkby, Dang H. Nguyen, Duy Nguyen, and Nhu N. Nguyen.  The goal is to provide a wide set of functionality for python users to simulate and estimate SDEs, as well as estimation tools for related statistical problems. The starting point is standard / state-of-the-art MLE estimation procedures, to be followed up with more cutting edge approaches.
 
 ## User installation
 
