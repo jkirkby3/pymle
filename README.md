@@ -1,12 +1,12 @@
 
-
-.. |PythonMinVersion| replace:: 3.6
-.. |NumPyMinVersion| replace:: 1.13.3
-
-
 # PyMLE
 
 Python library for Maximum Likelihood estimation (MLE) and simulation of Stochastic Differntial Equations (SDE), i.e. continuous diffusion processes.
+
+This library supports many models out of the box (e.g. Brownian Motion, Geometric Brownian Motion, CKLS, CIR, OU, etc.), and is designed to make it easy to add new models with minimial code, and to inheret the fitting and simulation of these models for free.
+
+MLE procedures supported: Kessler, Euler, Shoji-Ozaki, Elerian, and Exact MLE (when applicable)
+Simulation schemes supported: Euler, Milstein, Milstein-2
 
 
 ## User installation
