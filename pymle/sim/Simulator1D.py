@@ -1,9 +1,6 @@
 import numpy as np
-from typing import Callable
 from pymle.Model import Model1D
-from pymle.sim.Stepper import (
-    Stepper, ExactStepper, EulerStepper, MilsteinStepper, Milstein2Stepper
-)
+from pymle.sim.Stepper import Stepper
 
 
 class Simulator1D(object):
@@ -39,9 +36,9 @@ class Simulator1D(object):
 
         self.set_seed(seed=seed)
 
-    @staticmethod
-    def set_seed(seed: int = None):
+    def set_seed(self, seed: int = None):
         np.random.seed(seed=seed)
+        return self
 
     @property
     def model(self) -> Model1D:

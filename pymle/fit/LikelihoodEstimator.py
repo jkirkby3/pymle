@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 import numpy as np
 from typing import List, Tuple, Callable
 from scipy.optimize import minimize
 from pymle.Model import Model1D
 
-from pymle.fit.Estimator import Estimator
+from pymle.fit.Estimator import Estimator, EstimatedResult
 
 
 class LikelihoodEstimator(Estimator):
@@ -25,7 +25,7 @@ class LikelihoodEstimator(Estimator):
         super().__init__(sample=sample, param_bounds=param_bounds, dt=dt, model=model)
         self._min_prob = 1e-30  # used to floor probabilities when evaluating the log
 
-    def estimate_params(self, params0: np.ndarray) -> Tuple[np.ndarray, float]:
+    def estimate_params(self, params0: np.ndarray) -> EstimatedResult:
         """
         Main estimation function
         :param params0: array, the initial guess params
@@ -48,13 +48,13 @@ class LikelihoodEstimator(Estimator):
     # Private
     # ==================
 
-    def _estimate_params(self, params0: np.ndarray, likelihood: Callable) -> Tuple[np.ndarray, float]:
+    def _estimate_params(self, params0: np.ndarray, likelihood: Callable) -> EstimatedResult:
         """
         Main estimation function
         :param params0: array, the initial guess params
         :return: array, the estimated params
         """
-        # options={'xatol': 1e-7, 'disp': True}
+        # TODO: will inject the minimizer, this is hardcoded temporarily
         options = {'maxiter': 250, 'gtol': 1e-06, 'xtol': 1e-04, 'verbose': 1}
         print(f"Initial Params: {params0}")
         print(f"Initial Likelihood: {-likelihood(params0)}")
@@ -71,4 +71,4 @@ class LikelihoodEstimator(Estimator):
         final_like = -likelihood(params)
         print(f"Final Params: {params}")
         print(f"Final Likelihood: {final_like}")
-        return params, final_like
+        return EstimatedResult(params=params, log_like=final_like, sample_size=len(self._sample) - 1)

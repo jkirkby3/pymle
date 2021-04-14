@@ -4,6 +4,44 @@ from typing import List, Tuple
 from pymle.Model import Model1D
 
 
+class EstimatedResult(object):
+    def __init__(self,
+                 params: np.ndarray,
+                 log_like: float,
+                 sample_size: int):
+        """
+        Container for the result of estimation
+        :param params: array, the estimated (optimal) params
+        :param log_like: float, the final log-likelihood value (at optimum)
+        :param sample_size: int, the size of sample used in estimation (don't include S0)
+        """
+        self.params = params
+        self.log_like = log_like
+        self.sample_size = sample_size
+
+    @property
+    def likelihood(self) -> float:
+        """ The likelihood with estimated params """
+        return np.exp(self.log_like)
+
+    @property
+    def aic(self) -> float:
+        """ The AIC (Aikake Information Criteria) with estimated params """
+        return 2 * (len(self.params) - self.log_like)
+
+    @property
+    def bic(self) -> float:
+        """ The BIC (Bayesian Information Criteria) with estimated params """
+        return len(self.params) * np.log(self.sample_size) - 2 * self.log_like
+
+    def __str__(self):
+        """ String representation of the class (for pretty printing the results) """
+        return f'\nparams     | {self.params} \n' \
+               f'likelihood | {self.log_like} \n' \
+               f'AIC        | {self.aic}\n' \
+               f'BIC        | {self.bic}'
+
+
 class Estimator(ABC):
     def __init__(self,
                  sample: np.ndarray,
@@ -24,10 +62,10 @@ class Estimator(ABC):
         self._dt = dt
         self._model = model
 
-    def estimate_params(self, params0: np.ndarray) -> Tuple[np.ndarray, float]:
+    def estimate_params(self, params0: np.ndarray) -> EstimatedResult:
         """
         Main estimation function
         :param params0: array, the initial guess params
-        :return: (array, float), the estimated params and final likelihood
+        :return: result, the estimated params and final likelihood
         """
         raise NotImplementedError

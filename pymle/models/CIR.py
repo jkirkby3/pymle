@@ -8,13 +8,13 @@ from pymle.Model import Model1D
 class CIR(Model1D):
     """
     Model for CIR (cox-ingersol-ross)
-    Parameters: kappa, mu, sigma
+    Parameters:  [kappa, mu, sigma]
 
-    dX(t) = mu(X,t)dt + sigma(X,t)dW_t
+    dX(t) = mu(X,t)*dt + sigma(X,t)*dW_t
 
     where:
-        mu(X,t)    =
-        sigma(X,t) = sigma * sqrt(X)    (sigma>0)
+        mu(X,t)    = kappa * (mu - X)
+        sigma(X,t) = sigma * sqrt(X)         (sigma>0)
     """
 
     def __init__(self):
