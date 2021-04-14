@@ -7,7 +7,14 @@ from pymle.Model import Model1D
 
 class OrnsteinUhlenbeck(Model1D):
     """
-    Model for OU (ornstein-uhlenbeck)
+    Model for OU (ornstein-uhlenbeck):
+    Parameters: [kappa, mu, sigma]
+
+    dX(t) = mu(X,t)*dt + sigma(X,t)*dW_t
+
+    where:
+        mu(X,t)    = kappa * (mu - X)
+        sigma(X,t) = sigma * X
     """
 
     def __init__(self):
@@ -25,3 +32,16 @@ class OrnsteinUhlenbeck(Model1D):
         # mu = X0*np.exp(-kappa*t) + theta*(1 - np.exp(-kappa*t))
         var = (1 - np.exp(-2 * kappa * t)) * (sigma * sigma / (2 * kappa))
         return norm.pdf(xt, loc=mu, scale=np.sqrt(var))
+
+    # =======================
+    # (Optional) Overrides for numerical derivatives to improve performance
+    # =======================
+
+    def drift_t(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        return 0.
+
+    def diffusion_x(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        return 0.
+
+    def diffusion_xx(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        return 0.

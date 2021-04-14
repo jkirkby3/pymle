@@ -15,6 +15,7 @@ class CIR(Model1D):
     where:
         mu(X,t)    = kappa * (mu - X)
         sigma(X,t) = sigma * sqrt(X)         (sigma>0)
+
     """
 
     def __init__(self):
@@ -48,3 +49,10 @@ class CIR(Model1D):
     def _set_is_positive(self, params: np.ndarray) -> bool:
         """ CIR is always non-negative """
         return True
+
+    # =======================
+    # (Optional) Overrides for numerical derivatives to improve performance
+    # =======================
+
+    def drift_t(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        return 0.

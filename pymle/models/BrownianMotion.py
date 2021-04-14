@@ -6,13 +6,16 @@ from pymle.Model import Model1D
 
 class BrownianMotion(Model1D):
     """
-    Model for (drifted) Brownian Motion:
+    Model for (drifted) Brownian Motion
+    Parameters:  [mu, sigma]
 
     dX(t) = mu(X,t)dt + sigma(X,t)dW_t
 
     where:
         mu(X,t)    = mu   (constant)
         sigma(X,t) = sigma   (constant, >0)
+
+
     """
 
     def __init__(self):
@@ -28,3 +31,16 @@ class BrownianMotion(Model1D):
         mu, sigma = self._params
         mean_ = x0 + mu * t
         return norm.pdf(xt, loc=mean_, scale=sigma * np.sqrt(t))
+
+    # =======================
+    # (Optional) Overrides for numerical derivatives to improve performance
+    # =======================
+
+    def drift_t(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        return 0.
+
+    def diffusion_x(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        return 0.
+
+    def diffusion_xx(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        return 0.

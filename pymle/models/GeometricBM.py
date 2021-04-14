@@ -6,7 +6,13 @@ from pymle.Model import Model1D
 class GeometricBM(Model1D):
     """
     Model for Geometric Brownian motion
-    Parameters: mu, sigma
+    Parameters: [mu, sigma]
+
+    dX(t) = mu(X,t)dt + sigma(X,t)dW_t
+
+    where:
+        mu(X,t)    = mu*X   (constant)
+        sigma(X,t) = sigma*X   (constant, >0)
     """
 
     def __init__(self):
@@ -38,3 +44,10 @@ class GeometricBM(Model1D):
     def _set_is_positive(self, params: np.ndarray) -> bool:
         """ GBM is always positive """
         return True
+
+    # =======================
+    # (Optional) Overrides for numerical derivatives to improve performance
+    # =======================
+
+    def drift_t(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+        return 0.
