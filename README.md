@@ -19,8 +19,8 @@ Coming soon, for now use git clone.
 
 pymle requires:
 
-- Python (>= |PythonMinVersion|)
-- NumPy (>= |NumPyMinVersion|)
+- Python (>= 3.7)
+- NumPy (tested with 1.20.2)
 
 
 ## Source code
@@ -77,14 +77,12 @@ param_bounds = [(0, 10), (0, 4), (0.01, 1)]
 guess = np.array([1, 0.1, 0.4])
 
 # Fit using Kessler MLE
-kessler_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
-                            density=KesslerDensity(model)).estimate_params(guess)
+kessler_est = AnalyticalMLE(sample, param_bounds, dt, density=KesslerDensity(model)).estimate_params(guess)
 
 print(f'\nKessler MLE: {kessler_est} \n')
 
 # Fit using Exact MLE
-exact_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
-                          density=ExactDensity(model)).estimate_params(guess)
+exact_est = AnalyticalMLE(sample, param_bounds, dt, density=ExactDensity(model)).estimate_params(guess)
 
 print(f'\nExact MLE: {exact_est}')
 ```
