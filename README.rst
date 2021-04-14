@@ -31,9 +31,32 @@ You can check the latest sources with the command::
     
     
     
-Example: Fit MLE to Simulated Cox-Ingersol-Ross (CIR) sample
-~~~~~~~~~~~
-.. code-block:: python
+## Example: Fit MLE to Simulated Cox-Ingersol-Ross (CIR) sample
+```python
+import numpy as np
+from mle import *
+
+# Define model
+x = var('x', observed=True, vector=True)
+y = var('y', observed=True, vector=True)
+
+a = var('a')
+b = var('b')
+sigma = var('sigma')
+
+model = Normal(y, a * x + b, sigma)
+
+# Generate data
+xs = np.linspace(0, 2, 20)
+ys = 0.5 * xs + 0.3 + np.random.normal(0, 0.1, 20)
+
+# Fit model to data
+result = model.fit({'x': xs, 'y': ys}, {'a': 1, 'b': 1, 'sigma': 1})
+print(result)
+```
+
+
+```python
 from pymle.models import CIR
 from pymle.sim.Simulator1D import Simulator1D
 from pymle.TransitionDensity import ExactDensity, KesslerDensity
