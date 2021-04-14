@@ -1,4 +1,4 @@
-.. -*- mode: rst -*-
+
 
 .. |PythonMinVersion| replace:: 3.6
 .. |NumPyMinVersion| replace:: 1.13.3
