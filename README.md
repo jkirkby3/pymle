@@ -4,55 +4,35 @@
 .. |NumPyMinVersion| replace:: 1.13.3
 
 
-PyMLE
-~~~~~~~~~~~~~~~~~
+# PyMLE
+
 Python library for Maximum Likelihood estimation (MLE) and simulation of Stochastic Differntial Equations (SDE), i.e. continuous diffusion processes.
 
 
-User installation
-~~~~~~~~~~~~~~~~~
+## User installation
+
 
 Coming soon, for now use git clone.
 
-Dependencies
-~~~~~~~~~~~~
+## Dependencies
+
 
 pymle requires:
 
 - Python (>= |PythonMinVersion|)
 - NumPy (>= |NumPyMinVersion|)
 
-Source code
-~~~~~~~~~~~
+
+## Source code
 
 
+You can check the latest sources with the command
+
+    git clone https://github.com/jkirkby3/pymle.git
     
     
-    
+
 ## Example: Fit MLE to Simulated Cox-Ingersol-Ross (CIR) sample
-```python
-import numpy as np
-from mle import *
-
-# Define model
-x = var('x', observed=True, vector=True)
-y = var('y', observed=True, vector=True)
-
-a = var('a')
-b = var('b')
-sigma = var('sigma')
-
-model = Normal(y, a * x + b, sigma)
-
-# Generate data
-xs = np.linspace(0, 2, 20)
-ys = 0.5 * xs + 0.3 + np.random.normal(0, 0.1, 20)
-
-# Fit model to data
-result = model.fit({'x': xs, 'y': ys}, {'a': 1, 'b': 1, 'sigma': 1})
-print(result)
-```
-
 
 ```python
 from pymle.models import CIR
@@ -123,3 +103,4 @@ AIC        | -8789.282139767665
 BIC        | -8773.889443276776
 
 ```
+
