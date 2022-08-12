@@ -18,7 +18,7 @@ class FellerRoot(Model1D):
     """
 
     def __init__(self):
-        super().__init__(has_exact_density=True)
+        super().__init__(has_exact_density=False)
 
     def drift(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         c = self._params[2]**3 - self._params[0]*self._params[1]

@@ -22,12 +22,14 @@ class Model1D(ABC):
         self._default_sim_method = default_sim_method
 
     @abstractmethod
-    def drift(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+    def drift(self, x: Union[float, np.ndarray],
+              t: float) -> Union[float, np.ndarray]:
         """ The drift term of the model """
         raise NotImplementedError
 
     @abstractmethod
-    def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
+    def diffusion(self, x: Union[float, np.ndarray],
+                  t: float) -> Union[float, np.ndarray]:
         """ The diffusion term of the model """
         raise NotImplementedError
 
@@ -52,12 +54,13 @@ class Model1D(ABC):
 
     @property
     def has_exact_density(self) -> bool:
-        """ Return true if the model has an exact density implemented """
+        """ Return true if model has an exact density implemented """
         return self._has_exact_density
 
     def exact_density(self, x0: float, xt: float, t: float) -> float:
         """
-        In the case where the exact transition density, P(Xt, t | X0) is known, override this method
+        In the case where the exact transition density,
+        P(Xt, t | X0) is known, override this method
         :param x0: float, the current value
         :param xt: float, the value to transition to
         :param t: float, the time of observing Xt

@@ -24,5 +24,7 @@ class AnalyticalMLE(LikelihoodEstimator):
     def log_likelihood_negative(self, params: np.ndarray) -> float:
         self._model.params = params
         return -np.sum(np.log(np.maximum(self._min_prob,
-                                         self._density(x0=self._sample[:-1], xt=self._sample[1:], t=self._dt))))
+                                         self._density(x0=self._sample[:-1], 
+                                                       xt=self._sample[1:],
+                                                       t=self._dt))))
 

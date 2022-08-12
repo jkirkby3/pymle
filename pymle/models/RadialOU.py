@@ -24,7 +24,8 @@ class RadialOU(Model1D):
         return self._params[0] / x - x
 
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
-        return self._params[2] * (x > -10000)
+        return self._params[1]
+
 
     # =======================
     # (Optional) Overrides for numerical derivatives to improve performance

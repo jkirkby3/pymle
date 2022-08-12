@@ -1,5 +1,9 @@
 from typing import Union
 import numpy as np
+# warning is not logged here. Perfect for clean unit test output
+with np.errstate(divide='ignore'):
+    np.float64(1.0) / 0.0
+
 from scipy.special import ive
 
 from pymle.Model import Model1D
