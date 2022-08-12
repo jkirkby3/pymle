@@ -80,6 +80,35 @@ class EulerDensity(TransitionDensity):
         mut = x0 + self._model.drift(x0, t) * t
         return np.exp(-(xt - mut) ** 2 / sig2t) / np.sqrt(np.pi * sig2t)
 
+class OzakiDensity(TransitionDensity):
+    def __init__(self, model: Model1D):
+        """
+        Class which represents the Ozaki approximation transition density for a model
+        :param model: the SDE model, referenced during calls to the transition density
+        """
+        super().__init__(model=model)
+
+    def __call__(self,
+                 x0: Union[float, np.ndarray],
+                 xt: Union[float, np.ndarray],
+                 t: float) -> Union[float, np.ndarray]:
+        """
+        The transition density obtained via Ozaki expansion
+        :param x0: float or array, the current value
+        :param xt: float or array, the value to transition to  (must be same dimension as x0)
+        :param t: float, the time of observing Xt
+        :return: probability (same dimension as x0 and xt)
+        """
+        sig = self._model.diffusion(x0, t)
+        mu = self._model.drift(x0, t)
+
+        Mt = x0+ self._model.drift(x0, t)*(np.exp(self._model.drift_x(x0, t)*t)-1)/self._model.drift_x(x0, t)
+        Kt=(1/t)*np.log(1+self._model.drift(x0, t)*(np.exp(self._model.drift_x(x0, t)*t)-1)/(x0*self._model.drift_x(x0, t)))
+        Vt=sig**2*(np.exp(2*Kt*t)-1)/(2*Kt)
+        Vt=np.sqrt(Vt)
+
+        return np.exp(-0.5 * ((xt - Mt) / Vt) ** 2) / (np.sqrt(2 * np.pi) * Vt)
+
 
 class ShojiOzakiDensity(TransitionDensity):
     def __init__(self, model: Model1D):
@@ -188,5 +217,27 @@ class KesslerDensity(EulerDensity):
         term = 2 * sig * sig_x
         V = x0 ** 2 + (2 * mu * x0 + sig2) * t + (2 * mu * (mu_x * x0 + mu + sig * sig_x) +
                                                   sig2 * (sig_xx * x0 + 2 * sig_x + term + sig * sig_xx)) * d - E ** 2
-        V = np.sqrt(V)
+        V = np.sqrt(np.abs(V))
         return np.exp(-0.5 * ((xt - E) / V) ** 2) / (np.sqrt(2 * np.pi) * V)
+
+class AitSahalia(TransitionDensity):
+    def __init__(self, model: Model1D):
+        """
+        Class which represents the Ait-Sahalia approximation transition density for a model
+        :param model: the SDE model, referenced during calls to the transition density
+        """
+        super().__init__(model=model)
+
+    def __call__(self,
+                 x0: Union[float, np.ndarray],
+                 xt: Union[float, np.ndarray],
+                 t: float) -> Union[float, np.ndarray]:
+        """
+        The transition density obtained via Euler expansion
+        :param x0: float or array, the current value
+        :param xt: float or array, the value to transition to  (must be same dimension as x0)
+        :param t: float, the time of observing Xt
+        :return: probability (same dimension as x0 and xt)
+        """
+        return self._model.AitSahalia_density(x0=x0, xt=xt, t=t)
+
