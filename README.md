@@ -5,9 +5,16 @@ Python library for Maximum Likelihood estimation (MLE) and simulation of Stochas
 
 This library supports many models out of the box (e.g. Brownian Motion, Geometric Brownian Motion, CKLS, CIR, OU, etc.), and is designed to make it easy to add new models with minimial code, and to inheret the fitting and simulation of these models for free.
 
-*MLE procedures*: Kessler, Euler, Shoji-Ozaki, Elerian, and Exact MLE (when applicable)
+**MLE procedures**: 
+Ait-Sahalia Hermite Polynomial Expansion, Kessler, Euler, Shoji-Ozaki, Elerian, and Exact MLE (when applicable)
 
-*Simulation schemes*: Euler, Milstein, Milstein-2
+**Simulation schemes**: Euler, Milstein, Milstein-2, Exact (when available)
+
+**Diffusion Models**: Brownian motion, Geometric Brownian motion (GBM),
+IGBM, Peral-Verhulst, Linear SDE, Logistic, 3/2, CEV, CIR, CKLS, Feller's square root, 
+Hyperbolic, Hyperbolic 2, Jacobi, Modified CIR, OU, Radial OU, Pearson, 
+Nonlinear Mean Reversion, flexible Nonlinear SDE, Custom models easily supported
+
 
 ## Origin and Future Goals
 
