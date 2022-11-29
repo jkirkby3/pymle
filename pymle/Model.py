@@ -68,6 +68,17 @@ class Model1D(ABC):
         """
         raise NotImplementedError
 
+    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+        """
+        In the case where the Ait-Sahalia density expansion is known for this particular model, return it,
+            else raises exception
+        :param x0: float, the current value
+        :param xt: float, the value to transition to
+        :param t: float, the time of observing Xt
+        :return: probability via Ait-Sahalia expansion
+        """
+        raise NotImplementedError
+
     def exact_step(self,
                    t: float,
                    dt: float,

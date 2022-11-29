@@ -80,6 +80,7 @@ class EulerDensity(TransitionDensity):
         mut = x0 + self._model.drift(x0, t) * t
         return np.exp(-(xt - mut) ** 2 / sig2t) / np.sqrt(np.pi * sig2t)
 
+
 class OzakiDensity(TransitionDensity):
     def __init__(self, model: Model1D):
         """
@@ -100,12 +101,13 @@ class OzakiDensity(TransitionDensity):
         :return: probability (same dimension as x0 and xt)
         """
         sig = self._model.diffusion(x0, t)
-        mu = self._model.drift(x0, t)
+        # mu = self._model.drift(x0, t)
 
-        Mt = x0+ self._model.drift(x0, t)*(np.exp(self._model.drift_x(x0, t)*t)-1)/self._model.drift_x(x0, t)
-        Kt=(1/t)*np.log(1+self._model.drift(x0, t)*(np.exp(self._model.drift_x(x0, t)*t)-1)/(x0*self._model.drift_x(x0, t)))
-        Vt=sig**2*(np.exp(2*Kt*t)-1)/(2*Kt)
-        Vt=np.sqrt(Vt)
+        Mt = x0 + self._model.drift(x0, t) * (np.exp(self._model.drift_x(x0, t) * t) - 1) / self._model.drift_x(x0, t)
+        Kt = (1 / t) * np.log(1 + self._model.drift(x0, t) * (np.exp(self._model.drift_x(x0, t) * t) - 1) / (
+                    x0 * self._model.drift_x(x0, t)))
+        Vt = sig ** 2 * (np.exp(2 * Kt * t) - 1) / (2 * Kt)
+        Vt = np.sqrt(Vt)
 
         return np.exp(-0.5 * ((xt - Mt) / Vt) ** 2) / (np.sqrt(2 * np.pi) * Vt)
 
@@ -134,7 +136,7 @@ class ShojiOzakiDensity(TransitionDensity):
 
         Mt = 0.5 * sig ** 2 * self._model.drift_xx(x0, t) + self._model.drift_t(x0, t)
         Lt = self._model.drift_x(x0, t)
-        if (Lt == 0).any():   # TODO: need to fix this
+        if (Lt == 0).any():  # TODO: need to fix this
             B = sig * np.sqrt(t)
             A = x0 + mu * t + Mt * t ** 2 / 2
         else:
@@ -220,6 +222,7 @@ class KesslerDensity(EulerDensity):
         V = np.sqrt(np.abs(V))
         return np.exp(-0.5 * ((xt - E) / V) ** 2) / (np.sqrt(2 * np.pi) * V)
 
+
 class AitSahalia(TransitionDensity):
     def __init__(self, model: Model1D):
         """
@@ -240,4 +243,3 @@ class AitSahalia(TransitionDensity):
         :return: probability (same dimension as x0 and xt)
         """
         return self._model.AitSahalia_density(x0=x0, xt=xt, t=t)
-
