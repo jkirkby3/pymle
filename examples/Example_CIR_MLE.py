@@ -1,10 +1,15 @@
 """
 Description: This example demonstrates how to fit an SDE. It simulates a sample path from a Cox-Ingersol-Ross (CIR)
-process, and then fits two Maximum Likelihood Estimators (MLE):  1) Exact MLE, 2) Kessler's approximation
+process, and then fits several Maximum Likelihood Estimators (MLE):
+1) Exact MLE,
+2) Kessler's approximation
+3) Ait-Sahalia's Hermite polynomial expansion
+4) Euler density
+5) Shoji-Ozaki Density
 """
 from pymle.models import CIR
 from pymle.sim.Simulator1D import Simulator1D
-from pymle.TransitionDensity import ExactDensity, KesslerDensity
+from pymle.TransitionDensity import AitSahalia, ExactDensity, EulerDensity, KesslerDensity, ShojiOzakiDensity
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
 import numpy as np
 
@@ -14,8 +19,8 @@ import numpy as np
 S0 = 0.4  # initial value of process
 
 kappa = 3  # rate of mean reversion
-mu = 0.3  # long term level of process
-sigma = 0.2  # volatility
+mu = 2  # long term level of process
+sigma = 0.5  # volatility
 
 # ===========================
 # Create the true model to fit to
@@ -44,13 +49,31 @@ param_bounds = [(0, 10), (0, 4), (0.01, 1)]
 guess = np.array([1, 0.1, 0.4])
 
 # Fit using Kessler MLE
-kessler_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
-                            density=KesslerDensity(model)).estimate_params(guess)
+Euler_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
+                          density=EulerDensity(model)).estimate_params(guess)
 
-print(f'\nKessler MLE: {kessler_est} \n')
+print(f'\nEuler MLE: {Euler_est} \n')
 
 # Fit using Exact MLE
 exact_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
                           density=ExactDensity(model)).estimate_params(guess)
 
 print(f'\nExact MLE: {exact_est}')
+
+# Fit using AitSahalia MLE
+AitSahalia_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
+                               density=AitSahalia(model)).estimate_params(guess)
+
+print(f'\nAitSahalia MLE: {AitSahalia_est}')
+
+# Fit using Kessler MLE
+kessler_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
+                            density=KesslerDensity(model)).estimate_params(guess)
+
+print(f'\nKessler MLE: {kessler_est} \n')
+
+# Fit using ShojiOzaki MLE
+ShojiOzakiDensity_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
+                                      density=ShojiOzakiDensity(model)).estimate_params(guess)
+
+print(f'\nShoji-Ozaki MLE: {ShojiOzakiDensity_est} \n')
