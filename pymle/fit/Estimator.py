@@ -1,6 +1,7 @@
 from abc import ABC
 import numpy as np
 from typing import List, Tuple
+
 from pymle.Model import Model1D
 
 

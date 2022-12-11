@@ -1,10 +1,9 @@
 from abc import abstractmethod
 import numpy as np
 from typing import List, Tuple, Callable
-from scipy.optimize import minimize
+
 from pymle.Model import Model1D
 from pymle.fit.Minimizer import Minimizer, ScipyMinimizer
-
 from pymle.fit.Estimator import Estimator, EstimatedResult
 
 

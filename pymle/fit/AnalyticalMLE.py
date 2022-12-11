@@ -1,5 +1,6 @@
 import numpy as np
 from typing import List, Tuple
+
 from pymle.fit.LikelihoodEstimator import LikelihoodEstimator
 from pymle.TransitionDensity import TransitionDensity
 
