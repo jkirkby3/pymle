@@ -1,8 +1,10 @@
 import numpy as np
-from pymle.ctmc.Generator1D import Generator1D
 from typing import List, Tuple
-from pymle.fit.LikelihoodEstimator import LikelihoodEstimator
 from numba import jit
+
+from pymle.ctmc.Generator1D import Generator1D
+from pymle.fit.LikelihoodEstimator import LikelihoodEstimator
+from pymle.fit.Minimizer import Minimizer, ScipyMinimizer
 
 
 class CTMCEstimator(LikelihoodEstimator):
@@ -11,7 +13,8 @@ class CTMCEstimator(LikelihoodEstimator):
                  s_index: np.ndarray,
                  dt: float,
                  generator: Generator1D,
-                 param_bounds: List[Tuple]):
+                 param_bounds: List[Tuple],
+                 minimizer: Minimizer = ScipyMinimizer(tol=5e-02)):
         """
         This is the CTMC MLE estimator
         :param binned_sample: array, this is the BINNED sample (ie, random trajectory along CTMC state space)
@@ -20,7 +23,8 @@ class CTMCEstimator(LikelihoodEstimator):
         :param generator: the Generator (this creates the Q matrix according to some model)
         :param param_bounds: parameter bounds - list of tuples, each tuple is (min, max) for a particular parameter
         """
-        super().__init__(param_bounds=param_bounds, model=generator.model, dt=dt, sample=binned_sample)
+        super().__init__(param_bounds=param_bounds, model=generator.model, dt=dt, sample=binned_sample,
+                         minimizer=minimizer)
         self._generator = generator
         self._dt = dt
         self._states = generator.states

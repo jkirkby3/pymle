@@ -3,6 +3,7 @@ import numpy as np
 from typing import List, Tuple, Callable
 from scipy.optimize import minimize
 from pymle.Model import Model1D
+from pymle.fit.Minimizer import Minimizer, ScipyMinimizer
 
 from pymle.fit.Estimator import Estimator, EstimatedResult
 
@@ -12,7 +13,8 @@ class LikelihoodEstimator(Estimator):
                  sample: np.ndarray,
                  param_bounds: List[Tuple],
                  dt: float,
-                 model: Model1D):
+                 model: Model1D,
+                 minimizer: Minimizer = ScipyMinimizer()):
         """
         Abstract base class for Diffusion Estimator
         :param sample: np.ndarray, a univariate time series sample from the diffusion (ascending order of time)
@@ -24,6 +26,7 @@ class LikelihoodEstimator(Estimator):
         """
         super().__init__(sample=sample, param_bounds=param_bounds, dt=dt, model=model)
         self._min_prob = 1e-30  # used to floor probabilities when evaluating the log
+        self._minimizer = minimizer
 
     def estimate_params(self, params0: np.ndarray) -> EstimatedResult:
         """
@@ -54,21 +57,13 @@ class LikelihoodEstimator(Estimator):
         :param params0: array, the initial guess params
         :return: array, the estimated params
         """
-        # TODO: will inject the minimizer, this is hardcoded temporarily
-        options = {'maxiter': 250, 'gtol': 1e-06, 'xtol': 1e-04, 'verbose': 1}
         print(f"Initial Params: {params0}")
         print(f"Initial Likelihood: {-likelihood(params0)}")
 
-        method = 'trust-constr'  # optimization method to use
-        res = minimize(lambda x: likelihood(x),
-                       params0,
-                       tol=5e-02,
-                       method=method,
-                       bounds=self._param_bounds,
-                       options=options)
+        res = self._minimizer.minimize(function=likelihood, bounds=self._param_bounds, guess=params0)
+        params = res.params
 
-        params = res.x
-        final_like = -likelihood(params)
+        final_like = -res.value
         print(f"Final Params: {params}")
         print(f"Final Likelihood: {final_like}")
         return EstimatedResult(params=params, log_like=final_like, sample_size=len(self._sample) - 1)
