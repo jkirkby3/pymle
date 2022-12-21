@@ -1,7 +1,6 @@
 from setuptools import setup, find_packages
 
 
-
 setup(name='PyMLE',
       version='0.0.1',
       description='Maximum Likelihood Estimation (MLE) and simulation for SDE',
@@ -19,7 +18,7 @@ setup(name='PyMLE',
       author='Justin Lars Kirkby',
       author_email='jkirkby33@gmail.com',
       license='MIT',
-      packages=find_packages(where="pymle"),
+      packages=find_packages(),
       python_requires=">=3.7",
       install_requires=[
           'numpy',
