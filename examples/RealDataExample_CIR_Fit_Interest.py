@@ -1,7 +1,10 @@
 """
 Description: This example demonstrates how to fit an SDE based on historical interest rate data.
 The data consists of daily observations of the 10 Year Constant maturity interst rates.
-The example fits two Maximum Likelihood Estimators (MLE):  1) Shoji-Ozaki, 2) Kessler's approximation
+The example fits three Maximum Likelihood Estimators (MLE):
+    1) Shoji-Ozaki,
+    2) Kessler's approximation
+    3) Elerian Density approximation
 
 Data Source:
 -----------
