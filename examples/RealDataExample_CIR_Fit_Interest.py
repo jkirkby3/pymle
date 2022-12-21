@@ -72,6 +72,11 @@ kessler_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
                             density=KesslerDensity(model)).estimate_params(guess)
 print(f'\nKessler MLE: {kessler_est} \n')
 
+# Fit using Elerian MLE
+print("\nStarting ELERIAN------------------\n")
+kessler_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
+                            density=ElerianDensity(model)).estimate_params(guess)
+
 # Fit using Shoji-Ozaki MLE
 print("\nStarting SHOJI-OZAKI------------------\n")
 shojioz_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,

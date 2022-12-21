@@ -169,8 +169,8 @@ class ElerianDensity(EulerDensity):
         :return: probability (same dimension as x0 and xt)
         """
         sig_x = self._model.diffusion_x(x0, t)
-        if sig_x == 0:
-            return super.__call__(x0=x0, xt=xt, t=t)
+        if (isinstance(x0, np.ndarray) and (sig_x == 0).any) or (not isinstance(x0, np.ndarray) and sig_x == 0):
+            return super().__call__(x0=x0, xt=xt, t=t)
 
         sig = self._model.diffusion(x0, t)
         mu = self._model.drift(x0, t)
@@ -179,12 +179,11 @@ class ElerianDensity(EulerDensity):
         B = -0.5 * sig / sig_x + x0 + mu * t - A
         z = (xt - B) / A
         C = 1. / (sig_x ** 2 * t)
-        if z <= 0:
-            return 0
-        # scz = np.sqrt(C * z)
-        # ch = (np.exp(scz) + np.exp(-scz)) / 2   #
-        ch = np.cosh(np.sqrt(C * z))
-        return np.power(z, -0.5) * ch * np.exp(-0.5 * (C + z)) / (np.abs(A) * np.sqrt(2 * np.pi))
+
+        scz = np.sqrt(C * z)
+        cpz = -0.5 * (C + z)
+        ch = (np.exp(scz + cpz) + np.exp(-scz + cpz))
+        return np.power(z, -0.5) * ch / (2 * np.abs(A) * np.sqrt(2 * np.pi))
 
 
 class KesslerDensity(EulerDensity):
