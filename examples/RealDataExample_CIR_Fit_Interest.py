@@ -85,3 +85,10 @@ print("\nStarting SHOJI-OZAKI------------------\n")
 shojioz_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
                             density=ShojiOzakiDensity(model)).estimate_params(guess)
 print(f'\nShoji-Ozaki MLE: {shojioz_est}')
+
+# Fit using Ozaki
+print("\nStarting OZAKI------------------\n")
+exact_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
+                          density=OzakiDensity(model)).estimate_params(guess)
+
+print(f'\nOzaki MLE: {exact_est}')

@@ -101,13 +101,13 @@ class OzakiDensity(TransitionDensity):
         :return: probability (same dimension as x0 and xt)
         """
         sig = self._model.diffusion(x0, t)
-        # mu = self._model.drift(x0, t)
+        mu = self._model.drift(x0, t)
+        mu_x = self._model.drift_x(x0, t)
+        temp = mu * (np.exp(mu_x * t) - 1) / mu_x
 
-        Mt = x0 + self._model.drift(x0, t) * (np.exp(self._model.drift_x(x0, t) * t) - 1) / self._model.drift_x(x0, t)
-        Kt = (1 / t) * np.log(1 + self._model.drift(x0, t) * (np.exp(self._model.drift_x(x0, t) * t) - 1) / (
-                    x0 * self._model.drift_x(x0, t)))
-        Vt = sig ** 2 * (np.exp(2 * Kt * t) - 1) / (2 * Kt)
-        Vt = np.sqrt(Vt)
+        Mt = x0 + temp
+        Kt = (2 / t) * np.log(1 + temp / x0)
+        Vt = sig * np.sqrt((np.exp(Kt * t) - 1) / Kt)
 
         return np.exp(-0.5 * ((xt - Mt) / Vt) ** 2) / (np.sqrt(2 * np.pi) * Vt)
 
