@@ -32,13 +32,13 @@ class CIR(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[2] * np.sqrt(x)
 
-    def exact_density(self, x0: float, xt: float, t: float) -> float:
+    def exact_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         kappa, mu, sigma = self._params
         theta1 = kappa * mu
         theta2 = kappa
         theta3 = sigma
 
-        et = np.exp(-theta2 * t)
+        et = np.exp(-theta2 * dt)
         c = 2 * theta2 / (theta3 ** 2 * (1 - et))
         u = c * x0 * et
         v = c * xt
@@ -51,10 +51,10 @@ class CIR(Model1D):
         p *= ive(q, z)
         return p
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         x = xt
 
-        dell = t
+        dell = dt
 
         kappa, mu, sigma = self._params
 

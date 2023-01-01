@@ -19,3 +19,5 @@ class Test_CEV(unittest.TestCase):
             for x in (0.1, 0.3, 100):
                 self.assertEqual(model.drift(x=x, t=t), kappa * (mu - x))
                 self.assertEqual(model.diffusion(x=x, t=t), sigma * x ** gamma)
+
+        self.assertTrue(model.has_exact_density)

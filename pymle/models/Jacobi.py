@@ -25,10 +25,10 @@ class Jacobi(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return np.sqrt(self._params[0] * np.abs(x * (1 - x)))
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float,  dt: float) -> float:
         x = xt
 
-        dell = t
+        dell = dt
 
         theta = self._params
 

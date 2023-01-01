@@ -25,11 +25,11 @@ class NonLinearSDE(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[4] + self._params[5] * x + self._params[6] * x ** self._params[7]
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         am1, a0, a1, a2, b0, b1, b2, b3 = self._params
         x = xt
 
-        dell = t
+        dell = dt
 
         sx = b0 + b1 * x + b2 * x ** b3
         cm1 = -((x - x0) ** 2 / (2 * (b0 + b1 * x0 + b2 * x0 ** b3) ** 2)) + (

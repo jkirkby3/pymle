@@ -26,10 +26,10 @@ class FellerRoot(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[2] * x ** 1.5
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         x = xt
 
-        dell = t
+        dell = dt
 
         theta1, theta2, theta3 = self._params
 

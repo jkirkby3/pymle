@@ -28,10 +28,10 @@ class Pearson(Model1D):
         c = self._params[4]
         return np.sqrt(2 * self._params[0] * (a * x * x + b * x + c))
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         x = xt
 
-        dell = t
+        dell = dt
 
         kappa, mu, a, b, c = self._params
 

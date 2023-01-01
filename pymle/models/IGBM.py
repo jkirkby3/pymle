@@ -25,7 +25,7 @@ class IGBM(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[2] * x
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
 
         kappa, mu, sigma = self._params
         a = kappa * mu
@@ -33,7 +33,7 @@ class IGBM(Model1D):
         d = sigma
 
         x = xt
-        dell = t
+        dell = dt
 
         y = np.log(x) / d
         y0 = np.log(x0) / d

@@ -22,14 +22,16 @@ class Model1D(ABC):
         self._default_sim_method = default_sim_method
 
     @abstractmethod
-    def drift(self, x: Union[float, np.ndarray],
-              t: float) -> Union[float, np.ndarray]:
+    def drift(self,
+              x: Union[float, np.ndarray],
+              t: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
         """ The drift term of the model """
         raise NotImplementedError
 
     @abstractmethod
-    def diffusion(self, x: Union[float, np.ndarray],
-                  t: float) -> Union[float, np.ndarray]:
+    def diffusion(self,
+                  x: Union[float, np.ndarray],
+                  t: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
         """ The diffusion term of the model """
         raise NotImplementedError
 
@@ -57,24 +59,26 @@ class Model1D(ABC):
         """ Return true if model has an exact density implemented """
         return self._has_exact_density
 
-    def exact_density(self, x0: float, xt: float, t: float) -> float:
+    def exact_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         """
         In the case where the exact transition density,
         P(Xt, t | X0) is known, override this method
         :param x0: float, the current value
         :param xt: float, the value to transition to
-        :param t: float, the time of observing Xt
+        :param t0: float, the time of observing x0
+        :param dt: float, the time step between x0 and xt
         :return: probability
         """
         raise NotImplementedError
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         """
         In the case where the Ait-Sahalia density expansion is known for this particular model, return it,
             else raises exception
         :param x0: float, the current value
         :param xt: float, the value to transition to
-        :param t: float, the time of observing Xt
+        :param t0: float, the time of observing x0
+        :param dt: float, the time of observing Xt
         :return: probability via Ait-Sahalia expansion
         """
         raise NotImplementedError

@@ -25,10 +25,10 @@ class BrownianMotion(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[1] * (x > -10000)
 
-    def exact_density(self, x0: float, xt: float, t: float) -> float:
+    def exact_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         mu, sigma = self._params
-        mean_ = x0 + mu * t
-        return norm.pdf(xt, loc=mean_, scale=sigma * np.sqrt(t))
+        mean_ = x0 + mu * dt
+        return norm.pdf(xt, loc=mean_, scale=sigma * np.sqrt(dt))
 
     def exact_step(self,
                    t: float,

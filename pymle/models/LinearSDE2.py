@@ -24,14 +24,14 @@ class LinearSDE2(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[2] * x
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         a, b, d = self._params
         log = np.log
         exp = np.exp
         pi = np.pi
 
         x = xt
-        dell = t
+        dell = dt
 
         y = log(x) / d
         y0 = log(x0) / d

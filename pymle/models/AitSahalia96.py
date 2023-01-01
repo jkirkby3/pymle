@@ -25,10 +25,8 @@ class AitSahalia96(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return np.sqrt(self._params[4] + self._params[5] * x + self._params[6] * x ** self._params[7])
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         x = xt
-
-        dell = t
 
         am1, a0, a1, a2, b0, b1, b2, b3 = self._params
 
@@ -61,7 +59,7 @@ class AitSahalia96(Model1D):
                                 2 * b0 * (-1 + b3) +
                                 b2 * (-2 + b3) * x0 ** b3)) / (2 * x0 ** 2 * (b0 + b1 * x0 + b2 * x0 ** b3)))
 
-        output = -(1 / 2) * np.log(2 * np.pi * dell) - np.log(sx) + cm1 / dell + c0 + c1 * dell
+        output = -(1 / 2) * np.log(2 * np.pi * dt) - np.log(sx) + cm1 / dt + c0 + c1 * dt
 
         return np.exp(output)
 

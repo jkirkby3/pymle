@@ -1,6 +1,6 @@
 from abc import abstractmethod
 import numpy as np
-from typing import List, Tuple, Callable
+from typing import List, Tuple, Callable, Union
 
 from pymle.Model import Model1D
 from pymle.fit.Minimizer import Minimizer, ScipyMinimizer
@@ -11,19 +11,24 @@ class LikelihoodEstimator(Estimator):
     def __init__(self,
                  sample: np.ndarray,
                  param_bounds: List[Tuple],
-                 dt: float,
+                 dt: Union[float, np.ndarray],
                  model: Model1D,
-                 minimizer: Minimizer = ScipyMinimizer()):
+                 minimizer: Minimizer = ScipyMinimizer(),
+                 t0: Union[float, np.ndarray] = 0):
         """
         Abstract base class for Diffusion Estimator
         :param sample: np.ndarray, a univariate time series sample from the diffusion (ascending order of time)
         :param param_bounds: List[Tuple], a list of tuples, each tuple provides (lower,upper) bounds on the parameters,
             in order of the parameters as they are defined in the generator
-        :param dt: float, time step (time between diffusion steps, assumed uniform sampling frequency)
+        :param dt: float, time step (time between diffusion steps)
+            Either supply a constant dt for all time steps, or supply a set of dt's equal in length to the sample
         :param model: the diffusion model. This defines the parametric family/model,
             the parameters of which will be fitted during estimation
+        :param t0: Union[float, np.ndarray], optional parameter, if you are working with a time-homogenous model,
+            then this doesnt matter. Else, its the set of times at which to evaluate the drift and diffusion
+             coefficients
         """
-        super().__init__(sample=sample, param_bounds=param_bounds, dt=dt, model=model)
+        super().__init__(sample=sample, param_bounds=param_bounds, dt=dt, model=model, t0=t0)
         self._min_prob = 1e-30  # used to floor probabilities when evaluating the log
         self._minimizer = minimizer
 

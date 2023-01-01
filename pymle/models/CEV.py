@@ -30,12 +30,12 @@ class CEV(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[2] * x ** self._params[3]
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
 
         kappa, mu, sigma, gamma = self._params
         x = xt
 
-        dell = t
+        dell = dt
 
         am1 = 0
         a0 = kappa * mu

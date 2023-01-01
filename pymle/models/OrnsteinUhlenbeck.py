@@ -26,27 +26,26 @@ class OrnsteinUhlenbeck(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[2] * (x > -10000)
 
-    def exact_density(self, x0: float, xt: float, t: float) -> float:
+    def exact_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         kappa, theta, sigma = self._params
-        mu = theta + (x0 - theta) * np.exp(-kappa * t)
+        mu = theta + (x0 - theta) * np.exp(-kappa * dt)
         # mu = X0*np.exp(-kappa*t) + theta*(1 - np.exp(-kappa*t))
-        var = (1 - np.exp(-2 * kappa * t)) * (sigma * sigma / (2 * kappa))
+        var = (1 - np.exp(-2 * kappa * dt)) * (sigma * sigma / (2 * kappa))
         return norm.pdf(xt, loc=mu, scale=np.sqrt(var))
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         kappa, alpha, eta = self._params
         m = 1
-        dell = t
         x = xt
 
-        output = (-m / 2) * np.log(2 * np.pi * dell) - np.log(eta) - ((x - x0) ** 2 / (2 * eta ** 2)) / dell \
+        output = (-m / 2) * np.log(2 * np.pi * dt) - np.log(eta) - ((x - x0) ** 2 / (2 * eta ** 2)) / dt \
                  + ((-(x ** 2 / 2) + x0 ** 2 / 2 + x * alpha - x0 * alpha) * kappa) / eta ** 2 \
                  - ((1 / (6 * eta ** 2)) * (kappa * (-3 * eta ** 2 + (
-                x ** 2 + x0 ** 2 + x * (x0 - 3 * alpha) - 3 * x0 * alpha + 3 * alpha ** 2) * kappa))) * dell \
-                 - (1 / 2) * (kappa ** 2 / 6) * dell ** 2 \
+                x ** 2 + x0 ** 2 + x * (x0 - 3 * alpha) - 3 * x0 * alpha + 3 * alpha ** 2) * kappa))) * dt \
+                 - (1 / 2) * (kappa ** 2 / 6) * dt ** 2 \
                  + (1 / 6) * ((4 * x ** 2 + 7 * x * x0 + 4 * x0 ** 2 - 15 * x * alpha
                                - 15 * x0 * alpha + 15 * alpha ** 2) * kappa ** 4) / (
-                         60 * eta ** 2) * dell ** 3
+                         60 * eta ** 2) * dt ** 3
         return np.exp(output)
 
     # =======================

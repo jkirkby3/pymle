@@ -25,10 +25,10 @@ class ModifiedCIR(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[1] * np.sqrt(1 + x * x)
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float,  dt: float) -> float:
         x = xt
 
-        dell = t
+        dell = dt
 
         theta1, theta2 = self._params
 

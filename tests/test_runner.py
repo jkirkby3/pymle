@@ -1,6 +1,7 @@
 import unittest
 
 from tests.models.suite import test_suite as model_suite
+from tests.fit.suite import test_suite as fit_suite
 
 ##############################################
 
@@ -8,6 +9,7 @@ from tests.models.suite import test_suite as model_suite
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTests(model_suite())
+    suite.addTests(fit_suite())
     return suite
 
 

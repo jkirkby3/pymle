@@ -24,14 +24,14 @@ class GeometricBM(Model1D):
     def diffusion(self, x: Union[float, np.ndarray], t: float) -> Union[float, np.ndarray]:
         return self._params[1] * x
 
-    def exact_density(self, x0: float, xt: float, t: float) -> float:
+    def exact_density(self, x0: float, xt: float, t0: float, dt: float) -> float:
         mu, sigma = self._params
-        mu = np.log(x0) + (mu - 0.5 * sigma * sigma) * t
-        sigma = sigma * np.sqrt(t)
+        mu = np.log(x0) + (mu - 0.5 * sigma * sigma) * dt
+        sigma = sigma * np.sqrt(dt)
 
         return np.exp(-(np.log(xt) - mu) ** 2 / (2 * sigma * sigma)) / (xt * sigma * np.sqrt(2 * np.pi))
 
-    def AitSahalia_density(self, x0: float, xt: float, t: float) -> float:
+    def AitSahalia_density(self, x0: float, xt: float, t0: float,  dt: float) -> float:
         a = 0
         b, d = self._params
         log = np.log
@@ -39,7 +39,7 @@ class GeometricBM(Model1D):
         pi = np.pi
 
         x = xt
-        dell = t
+        dell = dt
 
         y = log(x) / d
         y0 = log(x0) / d
