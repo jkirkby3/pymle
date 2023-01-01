@@ -64,7 +64,7 @@ class Estimator(ABC):
             then this doesnt matter. Else, its the set of times at which to evaluate the drift and diffusion
              coefficients
         """
-        self._sample = sample
+        self._sample = sample.squeeze()
         self._param_bounds = param_bounds
         self._dt = dt
         self._model = model

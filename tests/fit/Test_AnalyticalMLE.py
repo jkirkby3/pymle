@@ -57,9 +57,9 @@ class Test_AnalyticalMLE(unittest.TestCase):
         self.assertAlmostEqual(Euler_est.bic, -6548.622621251201, 12)
 
         # Fit using Euler MLE again, but this time supply a set of dt
-        Euler_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt*np.ones(shape=(len(sample) - 1, 1)),
+        Euler_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt*np.ones(len(sample) - 1),
                                   density=EulerDensity(model),
-                                  t0=0,
+                                  t0=np.linspace(0, T-dt, len(sample) - 1),
                                   ).estimate_params(guess)
 
         self.assertTrue(np.max(np.abs(Euler_est.params - [2.73130997, 2.0519191,  0.21379523, 0.39469582])) < 1e-07)
