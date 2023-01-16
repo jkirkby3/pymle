@@ -24,6 +24,8 @@ class LikelihoodEstimator(Estimator):
             Either supply a constant dt for all time steps, or supply a set of dt's equal in length to the sample
         :param model: the diffusion model. This defines the parametric family/model,
             the parameters of which will be fitted during estimation
+        :param minimizer: Minimizer, the minimizer that is used to maximize the likelihood function. If none is
+            supplied, then ScipyMinimizer is used by default
         :param t0: Union[float, np.ndarray], optional parameter, if you are working with a time-homogenous model,
             then this doesnt matter. Else, its the set of times at which to evaluate the drift and diffusion
              coefficients
