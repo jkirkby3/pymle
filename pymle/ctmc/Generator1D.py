@@ -1,7 +1,7 @@
-from typing import Callable, Optional
+from typing import Optional
 from scipy.linalg import expm
 import numpy as np
-from pymle.Model import Model1D
+from pymle.core.Model import Model1D
 
 
 class Generator1D(object):

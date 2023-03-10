@@ -9,7 +9,7 @@ process, and then fits several Maximum Likelihood Estimators (MLE):
 """
 from pymle.models import CIR
 from pymle.sim.Simulator1D import Simulator1D
-from pymle.TransitionDensity import AitSahalia, ExactDensity, EulerDensity, KesslerDensity, ShojiOzakiDensity
+from pymle.core.TransitionDensity import AitSahalia, ExactDensity, EulerDensity, KesslerDensity, ShojiOzakiDensity
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
 import numpy as np
 

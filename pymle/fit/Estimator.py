@@ -1,8 +1,8 @@
 from abc import ABC
 import numpy as np
-from typing import List, Tuple, Optional, Union
+from typing import List, Tuple, Union
 
-from pymle.Model import Model1D
+from pymle.core.Model import Model1D
 
 
 class EstimatedResult(object):

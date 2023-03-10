@@ -1,6 +1,6 @@
 from typing import Union
 import numpy as np
-from pymle.Model import Model1D
+from pymle.core.Model import Model1D
 
 
 class LinearSDE1(Model1D):

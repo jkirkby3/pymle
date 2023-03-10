@@ -1,5 +1,5 @@
 import numpy as np
-from pymle.Model import Model1D
+from pymle.core.Model import Model1D
 from pymle.sim.Stepper import Stepper
 
 

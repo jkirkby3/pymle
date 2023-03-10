@@ -7,7 +7,7 @@ with np.errstate(divide='ignore'):
 
 from scipy.special import ive
 
-from pymle.Model import Model1D
+from pymle.core.Model import Model1D
 
 
 class CIR(Model1D):

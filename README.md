@@ -48,7 +48,7 @@ You can check the latest sources with the command
 ```python
 from pymle.models import CIR
 from pymle.sim.Simulator1D import Simulator1D
-from pymle.TransitionDensity import ExactDensity, KesslerDensity
+from pymle.core.TransitionDensity import ExactDensity, KesslerDensity
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
 import numpy as np
 
@@ -120,13 +120,12 @@ Data Source:
 Board of Governors of the Federal Reserve System (US), 10-Year Treasury Constant Maturity Rate [DGS10],
 retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/DGS10, April 11, 2021.
 
-
 ```python
 
 import pandas as pd
 import numpy as np
 from pymle.models.CKLS import CKLS
-from pymle.TransitionDensity import KesslerDensity, ShojiOzakiDensity
+from pymle.core.TransitionDensity import KesslerDensity, ShojiOzakiDensity
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
 
 # ===========================
@@ -134,11 +133,11 @@ from pymle.fit.AnalyticalMLE import AnalyticalMLE
 # ===========================
 # (Chan, Karolyi, Longstaff and Sanders Model)
 
-model = CKLS() 
+model = CKLS()
 
 # Set bounds for param search, and some psuedo-reasonable initial guess
-param_bounds = [(0.0, 10), (0.0, 10), (0.01, 3), (0.1, 2)]  
-guess = np.array([0.01, 0.1, 0.2, 0.6])  
+param_bounds = [(0.0, 10), (0.0, 10), (0.01, 3), (0.1, 2)]
+guess = np.array([0.01, 0.1, 0.2, 0.6])
 
 # ===========================
 # Read in the data (interest rate time series)

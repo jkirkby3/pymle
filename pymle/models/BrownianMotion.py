@@ -1,7 +1,7 @@
 from typing import Union
 import numpy as np
 from scipy.stats import norm
-from pymle.Model import Model1D
+from pymle.core.Model import Model1D
 
 
 class BrownianMotion(Model1D):

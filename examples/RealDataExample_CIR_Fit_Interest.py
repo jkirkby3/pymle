@@ -15,7 +15,7 @@ retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.
 import pandas as pd
 import matplotlib.pyplot as plt
 from pymle.models.CIR import CIR
-from pymle.TransitionDensity import *
+from pymle.core.TransitionDensity import *
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
 import seaborn as sns
 import matplotlib.dates as mdates

@@ -5,7 +5,7 @@ import numpy as np
 with np.errstate(divide='ignore'):
     np.float64(1.0) / 0.0
 
-from pymle.Model import Model1D
+from pymle.core.Model import Model1D
 
 
 class CEV(Model1D):

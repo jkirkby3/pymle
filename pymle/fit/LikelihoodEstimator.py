@@ -2,7 +2,7 @@ from abc import abstractmethod
 import numpy as np
 from typing import List, Tuple, Callable, Union
 
-from pymle.Model import Model1D
+from pymle.core.Model import Model1D
 from pymle.fit.Minimizer import Minimizer, ScipyMinimizer
 from pymle.fit.Estimator import Estimator, EstimatedResult
 

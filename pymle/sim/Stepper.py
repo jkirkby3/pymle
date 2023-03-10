@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import numpy as np
 from typing import Union
-from pymle.Model import Model1D
+from pymle.core.Model import Model1D
 
 
 class Stepper(ABC):

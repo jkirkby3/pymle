@@ -2,7 +2,7 @@ import numpy as np
 from typing import List, Tuple, Union
 
 from pymle.fit.LikelihoodEstimator import LikelihoodEstimator
-from pymle.TransitionDensity import TransitionDensity
+from pymle.core.TransitionDensity import TransitionDensity
 from pymle.fit.Minimizer import Minimizer, ScipyMinimizer
 
 

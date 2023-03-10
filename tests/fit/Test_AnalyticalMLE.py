@@ -1,7 +1,7 @@
 import unittest
 from pymle.models import CEV
 from pymle.sim.Simulator1D import Simulator1D
-from pymle.TransitionDensity import AitSahalia, KesslerDensity, EulerDensity
+from pymle.core.TransitionDensity import AitSahalia, KesslerDensity, EulerDensity
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
 import numpy as np
 
