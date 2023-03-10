@@ -1,6 +1,7 @@
 import numpy as np
 from pymle.core.Model import Model1D
 from pymle.sim.Stepper import Stepper
+from typing import Union
 
 
 class Simulator1D(object):
@@ -11,7 +12,7 @@ class Simulator1D(object):
                  model: Model1D,
                  sub_step: int = 5,
                  seed: int = None,
-                 method: str = "Default"):
+                 method: Union[str, Stepper] = "Default"):
         """
         Class for simulating paths of diffusion (SDE) process
         Override the sim_path method
@@ -26,12 +27,14 @@ class Simulator1D(object):
         :param method: str, the simulation scheme to use, e.g.:
             "Euler", "Milstein", "Milstein2", "Exact"
             If set to "Default", uses the default simulation defined by the model (for example, "Exact" if it is known)
+            Also allows you to supply your own stepper if desired
         """
         self._S0 = S0
         self._M = M
         self._dt = dt
         self._model = model
-        self._method = model.default_sim_method if method == "Default" else method
+        self._method = method
+        self._stepper = self._make_stepper(method, model)
         self._sub_step = sub_step
 
         self.set_seed(seed=seed)
@@ -55,11 +58,10 @@ class Simulator1D(object):
         if self._sub_step > 1 and self._method != "Exact":
             return self._sim_substep(num_paths=num_paths)
 
-        stepper = Stepper.new_stepper(scheme=self._method, model=self._model)
         path = self._init_path(path_shape=(self._M + 1, num_paths))
         norms = np.random.normal(loc=0., scale=1., size=(self._M, num_paths))
         for i in range(self._M):
-            path[i + 1, :] = stepper(t=i * self._dt, dt=self._dt, x=path[i, :], dZ=norms[i, :])
+            path[i + 1, :] = self._stepper(t=i * self._dt, dt=self._dt, x=path[i, :], dZ=norms[i, :])
         return path
 
     # ====================
@@ -71,14 +73,23 @@ class Simulator1D(object):
         path[0, :] = self._S0
         return path
 
+    def _make_stepper(self, method: Union[str, Stepper], model: Model1D) -> Stepper:
+        if isinstance(method, str):
+            self._method = model.default_sim_method if method == "Default" else method
+            return Stepper.new_stepper(scheme=self._method, model=self.model)
+        elif isinstance(method, Stepper):
+            self._method = 'custom'
+            return method
+        else:
+            raise ValueError("Unsupported stepper method")
+
     def _sim_substep(self, num_paths: int) -> np.ndarray:
         """ simulate using the sub-stepping routine (reduced bias) """
-        stepper = Stepper.new_stepper(scheme=self._method, model=self._model)
         path = self._init_path(path_shape=(self._M * self._sub_step + 1, num_paths))
         norms = np.random.normal(loc=0., scale=1., size=(self._M * self._sub_step, num_paths))
         dt_sub = self._dt / self._sub_step  # divides dt into subintervals of length dt_sub
 
         for i in range(self._M * self._sub_step):
-            path[i + 1, :] = stepper.next(t=i * dt_sub, dt=dt_sub, x=path[i, :], dZ=norms[i, :])
+            path[i + 1, :] = self._stepper.next(t=i * dt_sub, dt=dt_sub, x=path[i, :], dZ=norms[i, :])
 
         return path[::self._sub_step]
