@@ -22,8 +22,8 @@ This library was designed from a research collaboration with J.L. Kirkby, Dang H
 
 ## User installation
 
+pip install git+https://github.com/jkirkby3/pymle.git
 
-Coming soon, for now use git clone.
 
 ## Dependencies
 
