@@ -1,7 +1,7 @@
 import unittest
 from pymle.models import CEV
 from pymle.sim.Simulator1D import Simulator1D
-from pymle.core.TransitionDensity import AitSahalia, KesslerDensity, EulerDensity
+from pymle.core.TransitionDensity import AitSahaliaDensity, KesslerDensity, EulerDensity
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
 import numpy as np
 
@@ -76,7 +76,7 @@ class Test_AnalyticalMLE(unittest.TestCase):
 
         # Fit using AitSahalia MLE
         AitSahalia_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
-                                       density=AitSahalia(model)).estimate_params(guess)
+                                       density=AitSahaliaDensity(model)).estimate_params(guess)
 
         self.assertTrue(np.max(np.abs(AitSahalia_est.params - [2.68823016, 2.05359918, 0.21773247, 0.37567399])) < 1e-07)
         self.assertAlmostEqual(AitSahalia_est.aic, -6566.950162813345, 12)

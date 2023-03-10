@@ -235,7 +235,7 @@ class KesslerDensity(EulerDensity):
         return np.exp(-0.5 * ((xt - E) / V) ** 2) / (np.sqrt(2 * np.pi) * V)
 
 
-class AitSahalia(TransitionDensity):
+class AitSahaliaDensity(TransitionDensity):
     def __init__(self, model: Model1D):
         """
         Class which represents the Ait-Sahalia approximation transition density for a model

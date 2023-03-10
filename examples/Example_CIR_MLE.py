@@ -9,7 +9,7 @@ process, and then fits several Maximum Likelihood Estimators (MLE):
 """
 from pymle.models import CIR
 from pymle.sim.Simulator1D import Simulator1D
-from pymle.core.TransitionDensity import AitSahalia, ExactDensity, EulerDensity, KesslerDensity, ShojiOzakiDensity
+from pymle.core.TransitionDensity import AitSahaliaDensity, ExactDensity, EulerDensity, KesslerDensity, ShojiOzakiDensity
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
 import numpy as np
 
@@ -62,7 +62,7 @@ print(f'\nExact MLE: {exact_est}')
 
 # Fit using AitSahalia MLE
 AitSahalia_est = AnalyticalMLE(sample=sample, param_bounds=param_bounds, dt=dt,
-                               density=AitSahalia(model)).estimate_params(guess)
+                               density=AitSahaliaDensity(model)).estimate_params(guess)
 
 print(f'\nAitSahalia MLE: {AitSahalia_est}')
 
