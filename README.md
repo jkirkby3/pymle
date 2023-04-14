@@ -122,11 +122,11 @@ retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.
 
 ```python
 
-import pandas as pd
 import numpy as np
 from pymle.models.CKLS import CKLS
 from pymle.core.TransitionDensity import KesslerDensity, ShojiOzakiDensity
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
+from pymle.data.loader import load_10yr_CMrate
 
 # ===========================
 # Create the Hypothesized model (CKLS)
@@ -143,7 +143,7 @@ guess = np.array([0.01, 0.1, 0.2, 0.6])
 # Read in the data (interest rate time series)
 # ===========================
 
-df = pd.read_csv("../data/10yrCMrate.csv")
+df = load_10yr_CMrate()
 sample = df['Rate'].values
 dt = 1. / 252  # Daily observations
 
