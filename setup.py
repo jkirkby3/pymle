@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='pymle-diffusion',
-      version='0.0.2',
+      version='0.0.4',
       description='Maximum Likelihood Estimation (MLE) and simulation for SDE',
       long_description='Maximum Likelihood Estimation (MLE) and simulation for '
                        'Stochastic Differential Equations (SDE)',
@@ -20,13 +20,11 @@ setup(name='pymle-diffusion',
       packages=find_packages(),
       python_requires=">=3.7",
       install_requires=[
-          'numba~=0.53.1',
-          'seaborn~=0.11.1',
-          'setuptools~=56.0.0',
-          'numpy~=1.20.2',
-          'scipy~=1.6.2',
-          'pandas~=1.2.3',
-          'matplotlib~=3.4.1'
+          'numba',
+          'setuptools',
+          'numpy',
+          'scipy',
+          'pandas',
       ],
       include_package_data=True,
       zip_safe=False)
