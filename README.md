@@ -22,6 +22,10 @@ This library was designed from a research collaboration with J.L. Kirkby, Dang H
 
 ## User installation
 
+pip install pymle-diffusion
+
+For the latest version, you can also install directly from github:
+
 pip install git+https://github.com/jkirkby3/pymle.git
 
 
