@@ -12,13 +12,13 @@ Board of Governors of the Federal Reserve System (US), 10-Year Treasury Constant
 retrieved from FRED, Federal Reserve Bank of St. Louis; https://fred.stlouisfed.org/series/DGS10, April 11, 2021.
 
 """
-import pandas as pd
 import matplotlib.pyplot as plt
 from pymle.models.CIR import CIR
 from pymle.core.TransitionDensity import *
 from pymle.fit.AnalyticalMLE import AnalyticalMLE
 import seaborn as sns
 import matplotlib.dates as mdates
+from pymle.data.loader import load_FX_USD_EUR, load_10yr_CMrate
 import datetime
 
 sns.set_style('whitegrid')
@@ -30,11 +30,13 @@ model = CIR()
 guess = np.asarray([.24, 1.0, 0.1])
 param_bounds = [(0.01, 5), (0.01, 2), (0.01, 0.9)]
 # ===========================
-# Read in the data (interest rate time series)
+# Read in the data (FX time series)
 # ===========================
-df = pd.read_csv("../data/FX_USD_EUR.csv")
-df.columns = ['Date', 'Rate']
-df['Rate'] = df['Rate']
+example = 2
+if example == 1:
+    df = load_FX_USD_EUR()
+else:
+    df = load_10yr_CMrate()
 
 # =====================
 # Plot the data
@@ -54,7 +56,7 @@ if do_plot:
 
     ax.plot(df['Date'].values, df['Rate'].values)
     plt.xlabel('Date')
-    plt.ylabel('Exchange Rate')
+    plt.ylabel('Rate')
     fig.autofmt_xdate()
 
     plt.show()
