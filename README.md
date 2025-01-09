@@ -28,6 +28,15 @@ For the latest version, you can also install directly from github:
 
 pip install git+https://github.com/jkirkby3/pymle.git
 
+## Suggested Citation
+
+@article{kirkby2024pymle,
+  title={pymle: A Python Package for Maximum Likelihood Estimation and Simulation of Stochastic Differential Equations},
+  author={Kirkby, Justin and Nguyen, Dang and Nguyen, Duy and Nguyen, Nhu N},
+  journal={Journal of Statistical Software, Forthcoming},
+  year={2025}
+}
+
 
 ## Dependencies
 
