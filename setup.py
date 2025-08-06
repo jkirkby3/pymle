@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='pymle-diffusion',
-      version='0.0.4',
+      version='0.0.9',
       description='Maximum Likelihood Estimation (MLE) and simulation for SDE',
       long_description='Maximum Likelihood Estimation (MLE) and simulation for '
                        'Stochastic Differential Equations (SDE)',
