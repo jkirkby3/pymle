@@ -30,11 +30,15 @@ pip install git+https://github.com/jkirkby3/pymle.git
 
 ## Suggested Citation
 
-@article{kirkby2024pymle,
-  title={pymle: A Python Package for Maximum Likelihood Estimation and Simulation of Stochastic Differential Equations},
-  author={Kirkby, Justin and Nguyen, Dang and Nguyen, Duy and Nguyen, Nhu N},
-  journal={Journal of Statistical Software, Forthcoming},
-  year={2025}
+@Article{,
+title = {{pymle}: A {Python} Package for Maximum Likelihood Estimation and Simulation of Stochastic Differential Equations},
+author = {Justin L. Kirkby and Dang H. Nguyen and Duy Nguyen and Nhu Nguyen},
+journal = {Journal of Statistical Software},
+year = {2025},
+volume = {113},
+number = {4},
+pages = {1--40},
+doi = {10.18637/jss.v113.i04},
 }
 
 
